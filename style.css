@@ -1,0 +1,481 @@
+*{
+    box-sizing:border-box;
+}
+.hidden {
+    display: none ;
+}
+body{
+    margin:0;
+    background-color: rgb(209, 193, 223);
+    color: rgb(88, 12, 78);
+    font-family: 'Space Grotesk',sans-serif;
+}
+.wrap {
+     max-width: 640px;
+     margin: 0 auto; 
+    padding: 16px 20px 10px; }
+.name{
+    margin: 0 auto;
+    padding: 0;
+}
+.name h1{
+    font-family: 'Fraunces' ,serif;
+    font-weight: 600;
+    font-size: 30px;
+    margin:0;
+    color: rgb(29, 66, 66);
+    text-transform: capitalize;
+}
+.sous-titre{
+    font-size: 13px;
+    color: rgb(25, 114, 84);
+    letter-spacing: 0.05em;
+}
+.plan{
+    margin: 0 0 12px;
+    padding: 4px;
+    color: black;
+}
+nav{
+    display: flex;
+    gap: 6px;
+    background:rgb(6, 32, 61);
+    border: 1px solid sandybrown;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+nav button{
+    background: #555;
+    color: rgb(188, 240, 240);
+    flex: 1;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 8px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+}
+nav button.active{
+    background: #634b69;
+    color: azure;
+}
+.card{
+    background: #cbe4e5;
+    border: 1.5px solid #482b69;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    
+}
+.card h3{
+    font-weight: 600;
+    font-family: 'Fraunces', serif;
+    color:rgb(32, 58, 58);
+    margin: 0 0 12px;
+}
+.set{
+    font-size: 14px;
+    color: #2e1f81;
+}
+.reset{
+    background: none;
+    border: none;
+    color: #150444;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 14px;
+}
+.reset:hover{
+    color: #5910b3;
+}
+
+/* form fields */
+label{
+    display: block;
+    font-size: 12px;
+    color: rgb(32, 58, 58);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+input[type="text"], input[type="date"]{
+    width: 100%;
+    background: azure;
+    border: 1px solid #482b69;
+    border-radius: 6px;
+    color: rgb(29, 66, 66);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.tab{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.tab > div{
+    flex: 1;
+    min-width: 150px;
+}
+
+/* buttons */
+.btn{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    background: #634b69;
+    color: azure;
+    padding: 10px 16px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+.btn:hover{
+    background: #482b69;
+}
+
+/* topics */
+.topic-add{
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+.topic-add input{
+    flex: 1;
+}
+#topics-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+.tag{
+    background: azure;
+    border: 1px solid #482b69;
+    border-radius: 20px;
+    padding: 6px 10px 6px 14px;
+    font-size: 13px;
+    color: rgb(29, 66, 66);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.tag .remove-topic{
+    background: none;
+    border: none;
+    color: #150444;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+}
+.tag .remove-topic:hover{
+    color: #5910b3;
+}
+
+/* schedule */
+.day-card{
+    border: 1px solid #482b69;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: azure;
+}
+.day-card strong{
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgb(25, 114, 84);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+}
+.day-card ul{
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    color: #2e1f81;
+}
+
+/* focus duration options */
+.duration-options{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+.duration-options button{
+    flex: 1;
+    min-width: 68px;
+    background: azure;
+    border: 1px solid #482b69;
+    border-radius: 6px;
+    color: rgb(29, 66, 66);
+    padding: 10px 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+}
+.duration-options button.selected{
+    background: #634b69;
+    color: azure;
+    border-color: #634b69;
+}
+
+/* ===== Locked Overlay ===== */
+.locked-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0f0c1a;
+  color: azure;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.locked-overlay.hidden {
+  display: none !important;
+}
+
+#lock-examName {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #cbe4e5;
+}
+
+#timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(42px, 11vw, 72px);
+  font-weight: 700;
+  color: #ffb37b;
+  margin: 10px 0 30px;
+  letter-spacing: 2px;
+}
+
+#stop-btn {
+  background: none;
+  border: 1px solid #ffb37b;
+  color: #ffb37b;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: 0.2s;
+}
+
+#stop-btn:hover {
+  background: #ffb37b;
+  color: #0f0c1a;
+}
+
+/* ===== Modal backdrop — shared by #challenge AND #musica ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 12, 26, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+/* .hidden already sets display:none globally, but .modal above sets
+   display:flex at equal specificity — this makes sure hidden always wins
+   regardless of which rule comes first in the file */
+.modal.hidden {
+  display: none !important;
+}
+
+/* shared card style for anything inside a modal (challenge box, music prompt) */
+.cha-content,
+.challenge-box {
+  background: #cbe4e5;
+  border: 2px solid #482b69;
+  border-radius: 14px;
+  padding: 28px 24px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  color: #1d4242;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cha-content h3,
+.challenge-box h3 {
+  font-family: 'Fraunces', serif;
+  margin: 0 0 4px;
+  color: #203a3a;
+}
+
+#cha-ques {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 16px 0;
+  color: #35214d;
+}
+
+#cha-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 1.5px solid #482b69;
+  border-radius: 8px;
+  background: azure;
+  color: #1d4242;
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#cha-err {
+  color: #b33a3a;
+  font-size: 13px;
+  min-height: 18px;
+  margin-bottom: 12px;
+}
+
+#cha-submit,
+#cha-cancel {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+#cha-submit {
+  background: rgb(66, 52, 83);
+  color: azure;
+}
+
+#cha-submit:hover {
+  background: #2a2d61;
+}
+
+#cha-cancel {
+  background: transparent;
+  border: 1px solid #482b69;
+  color: #482b69;
+}
+
+#cha-cancel:hover {
+  background: #482b69;
+  color: azure;
+}
+
+/* music prompt (Yes/No buttons inside #musica) */
+.spotify-btn{
+  background: #1DB954;
+  color: azure;
+}
+.spotify-btn:hover{
+  background: #169c46;
+}
+.btn-outline{
+  background: transparent;
+  border: 1px solid #482b69;
+  color: #482b69;
+}
+.btn-outline:hover{
+  background: #482b69;
+  color: azure;
+}
+#music-linkr{
+  margin: 4px 0;
+}
+
+.streak{
+    background:azure;
+    border:1.5px solid #482b69;
+    border-radius:10px;
+    padding:12px 16px;
+    margin-bottom:16px;
+    color:#2d0d85;
+    text-align: center;
+
+}
+.streak strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size:1.3rem;
+    color: #1b0d58;
+}
+#quote{
+    max-width: 420px;
+    font-family: 'Fraunces', serif;
+    font-size: italic;
+    color: #cbe4e5;
+
+}
+#goal-input{
+    
+    background: azure;
+    border: 1px solid #482b69;
+    border-radius: 6px;
+    color: rgb(5, 25, 82);
+    padding: 8px 10px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.goal-bar{
+    background: #cbe4e5;
+    border: 1px solid #482b69;
+    border-radius: 6px;
+    height: 12px;
+    margin-top: 10px;
+    }
+#goal-fill{
+    background: #634b69;
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.4s;
+}
+#goal-text{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #1b0d58;
+    margin-top: 6px;
+}
+#streak-msg{
+    font-size: 13px;
+    margin-top: 6px;
+}
+#starti {
+  background: #ffb37b;
+  border: 1.5px solid #251d16;
+  color: #0f0c1a;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+#starti:hover {
+  background: #11bb96;
+}
+.countdown{
+    font-family: 'Fraunces',serif;
+    font-weight:600;
+    font-size:16px;
+    color: #5a49aa;
+    margin-top: 12px;
+}

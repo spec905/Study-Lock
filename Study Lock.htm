@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Lock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="name"><h1>Study Lock</h1><span class="sous-titre">for exam season</span></div>
+        <p class="plan">Plan your revision, get good grades.</p>
+
+        <nav>
+            <button class="home" data-view="home">Home</button>
+            <button data-view="schedule">Schedule</button>
+            <button data-view="focus">Lock in session</button>
+        </nav>
+
+        <div id="home">
+            <div class="card" id="setup">
+                <h3>Set your exam</h3>
+                <div class="tab">
+                    <div>
+                        <label for="exam-name">Exam</label>
+                        <input type="text" id="exam-name" placeholder="put your exam name here">
+                    </div>
+                    <div>
+                        <label for="exam-date">exam date</label>
+                        <input type="date" id="exam-date">
+                    </div>
+                </div>
+                <div>
+                    <label for="topictostudy-input">topics to cover (optional)</label>
+                </div>
+                <div class="topic-add">
+                    <input type="text" id="topictostudy-input" placeholder="add some topics">
+                    <button class="btn" id="add-topic-btn" type="button">Add</button>
+                </div>
+                <div id="topics-list"></div>
+                <button class="btn" id="generate-btn" type="button">Generate schedule</button>
+                <div id="count" class="count"></div>
+                <div id="nextBody" class="set">Set your exam date and subjects to get a plan</div>
+                <button class="reset" id="reset-btn" type="button">Start a new exam plan</button>
+            </div>
+        </div>
+
+        <!-- schedule -->
+        <div id="schedule" class="schedule">
+            <div class="card">
+                <h3>Full schedule</h3>
+                <div id="schedule-list"></div>
+            </div>
+        </div>
+
+        <!--foccus-->
+        <div id="focus" class="focus">
+            <div class="card">
+                <h3>lock in mode</h3>
+                <p>Stay focused and avoid distractions during your study sessions.</p>
+                <p>Pick a duration or go open-ended.
+                    short sprints are easier to start with if you struggle with focus.
+                </p>
+                <div class="duration-options">
+                    
+                    <button data-mins="25">25 min</button>
+                    <button data-mins="30">30 min</button>
+                    <button data-mins="60">60 min</button>
+                    <button data-mins="0">Open-session</button>
+                </div>
+                <button class="btn" id="start-study-btn" >Ready to start</button>
+            </div>
+        </div>
+        <!--hide lock in mode by defau-->
+        <div id="locked-overlay" class="locked-overlay hidden">
+            <div class="content">
+                <h2 id="lock-examName">Focus mode</h2>
+                <div id="timer">00:00:00</div>
+                <p id="quote"></p>
+                <button id="starti" class="hidden">Start now</button>
+                <button id="stop-btn">Stop the session?</button>
+            </div>
+        </div>
+        <!--want to stop in the middle solve this first-->
+        <div id="challenge" class="modal hidden">
+    <div class="cha-content">
+        <h3>To stop the session, you need to solve this challenge first.</h3>
+        <p id="cha-ques">0+0=?</p>
+        <input type="number" id="cha-input" placeholder="your answer">
+        <p id="cha-err" class="error"></p>
+        <button id="cha-submit">Submit</button>
+        <button id="cha-cancel">Cancel</button>
+    </div>
+</div>
+    </div>
+    <div class="streak">
+        streak:<strong id="streak-count">0</strong>day<span id="streak">s</span>
+        <div id="streak-msg"></div>
+        <div class="goal">
+            <label for="goal-input">daily goals(time tracked)</label>
+            <input type="number" id="goal-input" min="10" step="10" value="120">
+            <div class="goal-bar">
+                <div id="goal-fill"></div>
+            </div>
+            <div id="goal-text">0/120 min</div>
+        </div>
+    </div>
+<div id="musica" class="modal hidden">
+  <div class="cha-content">
+    <h3>Want music while you study?</h3>
+    <div id="music-linkr" class="hidden">
+      <input type="text" id="music-link-input" placeholder="paste your Spotify or YouTube link">
+    </div>
+    <button id="change-music" class="btn btn-outline hidden">change the link</button>
+    <button id="yes-music" class="btn spotify-btn">Yes</button>
+<button id="no-music" class="btn btn-outline">No, just lock in</button>
+  </div>
+</div>
+            
+    <script src="script.js"></script>
+</body>
+</html>
