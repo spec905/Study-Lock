@@ -478,23 +478,23 @@ input:focus {
 
 /* Music buttons */
 .spotify-btn {
-  background: #1DB954 ;
-  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.35);
+  background: #1DB954 !important;
+  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.35) !important;
 }
 
 .spotify-btn:hover {
-  background: #169c46 ;
+  background: #169c46 !important;
 }
 
 .btn-outline {
-  background: transparent ;
+  background: transparent !important;
   border: 1px solid rgba(129, 140, 248, 0.4) ;
-  color: #c7d2fe ;
-  box-shadow: none ;
+  color: #c7d2fe !important;
+  box-shadow: none !important;
 }
 
 .btn-outline:hover {
-  background: rgba(99, 102, 241, 0.15) ;
+  background: rgba(99, 102, 241, 0.15) !important;
 }
 
 /* Streak + goal */
@@ -749,7 +749,7 @@ select option {
 }
 
 #starti.hidden {
-  display: none ;
+  display: none !important;
 }
 
 #history {
