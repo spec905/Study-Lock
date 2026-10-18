@@ -16,6 +16,7 @@
             <button class="home" data-view="home">Home</button>
             <button data-view="schedule">Schedule</button>
             <button data-view="focus">Lock in session</button>
+            <button data-view="history">history</button>
         </nav>
 
         <div id="home">
@@ -30,6 +31,16 @@
                         <label for="exam-date">exam date</label>
                         <input type="date" id="exam-date">
                     </div>
+                    <div>
+                    <label for="days-per-week">study days / week</label>
+                    <select id="days-per-week">
+                        <option value="3">3 days</option>
+                        <option value="4">4 days</option>
+                        <option value="5" selected>5 days</option>
+                        <option value="6">6 days</option>
+                        <option value="7">7 days</option>
+                     </select>
+                    </div>
                 </div>
                 <div>
                     <label for="topictostudy-input">topics to cover (optional)</label>
@@ -39,18 +50,21 @@
                     <button class="btn" id="add-topic-btn" type="button">Add</button>
                 </div>
                 <div id="topics-list"></div>
-                <button class="btn" id="generate-btn" type="button">Generate schedule</button>
-                <div id="count" class="count"></div>
-                <div id="nextBody" class="set">Set your exam date and subjects to get a plan</div>
-                <button class="reset" id="reset-btn" type="button">Start a new exam plan</button>
+                <button class="btn" id="generate-btn" type="button">Save exam</button>
+                <div id="nextBody" class="set">Add an exam to get a plan</div>
+                <button class="reset" id="reset-btn" type="button">Clear form</button>
             </div>
         </div>
 
         <!-- schedule -->
         <div id="schedule" class="schedule">
             <div class="card">
-                <h3>Full schedule</h3>
-                <div id="schedule-list"></div>
+                <h3>My exams</h3>
+                <div id="exams-list"></div>
+            </div>
+            <div class="card">
+                <h3 id="schedule-title">full schedule</h3>
+                <div id="plan"></div>
             </div>
         </div>
 
@@ -63,12 +77,12 @@
                     short sprints are easier to start with if you struggle with focus.
                 </p>
                 <div class="duration-options">
-                    
-                    <button data-mins="25">25 min</button>
                     <button data-mins="30">30 min</button>
                     <button data-mins="60">60 min</button>
                     <button data-mins="0">Open-session</button>
                 </div>
+                <label for="focus-exam">what are you studying for?</label>
+                <select id="focus-exam"></select>
                 <button class="btn" id="start-study-btn" >Ready to start</button>
             </div>
         </div>
@@ -82,6 +96,17 @@
                 <button id="stop-btn">Stop the session?</button>
             </div>
         </div>
+        <div id="history" class="history">
+            <div class="card">
+                <h3>Time per exam</h3>
+                <div id="history-totals"></div>
+            </div>
+            <div class="card">
+                <h3>Study sessions</h3>
+                <div id="history-list"></div>
+            </div>
+        </div>
+
         <!--want to stop in the middle solve this first-->
         <div id="challenge" class="modal hidden">
     <div class="cha-content">
