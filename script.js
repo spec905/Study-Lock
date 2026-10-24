@@ -62,7 +62,7 @@ function formatTime(seconds) {
     String(s).padStart(2, '0');
 }
 
-// ===== topics =====
+// topics 
 const topicInput = document.getElementById('topictostudy-input');
 const addTopicBtn = document.getElementById('add-topic-btn');
 const topicsList = document.getElementById('topics-list');
@@ -111,7 +111,6 @@ if (topicsList) {
 const examNameInput = document.getElementById('exam-name');
 const examDateInput = document.getElementById('exam-date');
 const nextBody = document.getElementById('nextBody');
-const countDisplay = document.getElementById('count');
 const generatebtn = document.getElementById('generate-btn');
 const resetbtn = document.getElementById('reset-btn');
 const daysPerWeekSelect = document.getElementById('days-per-week');
@@ -256,21 +255,6 @@ function renderToday() {
     tasks.map((task, j) => taskHtml(task, dayIndex, j)).join('');
 }
 
-function renderCountdown() {
-  if (!countDisplay) return;
-  if (!examDate) {
-    countDisplay.textContent = '';
-    return;
-  }
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const exam = new Date(examDate + 'T00:00:00');
-  const days = Math.round((exam - today) / 86400000);
-  const name = examName || 'exam';
-  if (days <= 0) countDisplay.textContent = `${name} is today, good luck!`;
-  else if (days === 1) countDisplay.textContent = `1 day until ${name}`;
-  else countDisplay.textContent = `${days} days until ${name}`;
-}
 
 function persistCurrentExam() {
   if (!currentExamId || !examDate) return;
@@ -334,7 +318,7 @@ function saveCurrentExam() {
   renderFocusExamSelect();
   renderSchedule();
   renderToday();
-  renderCountdown();
+  
 }
 
 function loadExam(id) {
@@ -362,7 +346,6 @@ function loadExam(id) {
   renderTopics();
   renderSchedule();
   renderToday();
-  renderCountdown();
   renderExamsList();
   renderFocusExamSelect();
 }
@@ -380,7 +363,6 @@ function deleteExam(id) {
     renderTopics();
     renderSchedule();
     renderToday();
-    renderCountdown();
   }
   saveExams();
   renderExamsList();
@@ -441,7 +423,6 @@ if (resetbtn) {
     renderTopics();
     renderSchedule();
     renderToday();
-    renderCountdown();
     localStorage.removeItem('currentExamId');
     renderExamsList();
   });

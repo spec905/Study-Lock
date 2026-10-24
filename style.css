@@ -123,7 +123,8 @@ label {
 
 input[type="text"],
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
   background: rgba(30, 41, 59, 0.9);
   border: 1px solid rgba(129, 140, 248, 0.3);
@@ -134,10 +135,20 @@ input[type="number"] {
   font-family: 'Space Grotesk', sans-serif;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: #818cf8;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+select {
+  cursor: pointer;
+}
+
+select option {
+  background: #1e293b;
+  color: #f1f5f9;
 }
 
 .tab {
@@ -264,11 +275,40 @@ input:focus {
   gap: 8px;
   margin: 6px 0;
   cursor: pointer;
+  color: #cbd5e1;
+}
+
+.task input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #818cf8;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .task .done {
   text-decoration: line-through;
   color: #64748b;
+}
+
+.progress-today {
+  font-size: 13px;
+  color: #a5b4fc;
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.set {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+#plan p,
+#exams-list p,
+#history-list p,
+#history-totals p {
+  color: #94a3b8;
+  font-size: 14px;
 }
 
 /* Duration options */
@@ -305,7 +345,15 @@ input:focus {
   box-shadow: 0 0 14px rgba(99, 102, 241, 0.4);
 }
 
-/* Locked overlay — deep space */
+#focus .card label[for="focus-exam"] {
+  margin-top: 14px;
+}
+
+#focus-exam {
+  margin-bottom: 4px;
+}
+
+/* Locked overlay */
 .locked-overlay {
   position: fixed;
   inset: 0;
@@ -324,6 +372,13 @@ input:focus {
   flex-direction: column;
   text-align: center;
   padding: 20px;
+}
+
+.locked-overlay .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 #lock-examName {
@@ -364,6 +419,7 @@ input:focus {
   margin-bottom: 16px;
   box-shadow: 0 0 24px rgba(99, 102, 241, 0.5);
   font-family: 'Space Grotesk', sans-serif;
+  transition: 0.2s;
 }
 
 #starti:hover {
@@ -477,24 +533,24 @@ input:focus {
 }
 
 /* Music buttons */
-.spotify-btn {
-  background: #1DB954 !important;
-  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.35) !important;
+.btn.spotify-btn {
+  background: #1DB954;
+  box-shadow: 0 4px 14px rgba(29, 185, 84, 0.35);
 }
 
-.spotify-btn:hover {
-  background: #169c46 !important;
+.btn.spotify-btn:hover {
+  background: #169c46;
 }
 
-.btn-outline {
-  background: transparent !important;
-  border: 1px solid rgba(129, 140, 248, 0.4) ;
-  color: #c7d2fe !important;
-  box-shadow: none !important;
+.btn.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(129, 140, 248, 0.4);
+  color: #c7d2fe;
+  box-shadow: none;
 }
 
-.btn-outline:hover {
-  background: rgba(99, 102, 241, 0.15) !important;
+.btn.btn-outline:hover {
+  background: rgba(99, 102, 241, 0.15);
 }
 
 /* Streak + goal */
@@ -552,49 +608,7 @@ input:focus {
   font-family: 'JetBrains Mono', monospace;
 }
 
-.count {
-  font-size: 14px;
-  color: #a5b4fc;
-  margin: 10px 0;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.set {
-  font-size: 14px;
-  color: #94a3b8;
-}
-
-.progress-today {
-  font-size: 13px;
-  color: #a5b4fc;
-  margin-bottom: 8px;
-  font-family: 'JetBrains Mono', monospace;
-}
-/* ===== Select inputs (days-per-week, focus-exam) ===== */
-select {
-  width: 100%;
-  background: rgba(30, 41, 59, 0.9);
-  border: 1px solid rgba(129, 140, 248, 0.3);
-  border-radius: 8px;
-  color: #f1f5f9;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-family: 'Space Grotesk', sans-serif;
-  cursor: pointer;
-}
-
-select:focus {
-  outline: none;
-  border-color: #818cf8;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-}
-
-select option {
-  background: #1e293b;
-  color: #f1f5f9;
-}
-
-/* ===== Exam list ===== */
+/* Exam list */
 .exam-row {
   display: flex;
   justify-content: space-between;
@@ -654,7 +668,7 @@ select option {
   background: rgba(248, 113, 113, 0.12);
 }
 
-
+/* History */
 .history-item {
   display: flex;
   justify-content: space-between;
@@ -674,87 +688,10 @@ select option {
   white-space: nowrap;
 }
 
-
-#focus .card label[for="focus-exam"] {
-  margin-top: 14px;
-}
-
-#focus-exam {
-  margin-bottom: 4px;
-}
-
-.task {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 6px 0;
-  cursor: pointer;
-  color: #cbd5e1;
-}
-
-.task input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #818cf8;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.task .done {
-  text-decoration: line-through;
-  color: #64748b;
-}
-
-.day-card ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-
-/* ===== Schedule empty state ===== */
-#plan p,
-#exams-list p,
-#history-list p,
-#history-totals p {
-  color: #94a3b8;
-  font-size: 14px;
-}
-
-/* ===== Progress today ===== */
-.progress-today {
-  font-size: 13px;
-  color: #a5b4fc;
-  margin-bottom: 10px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* ===== Start now button  == */
-#starti {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  border: none;
-  color: #fff;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 16px;
-  box-shadow: 0 0 24px rgba(99, 102, 241, 0.5);
-  font-family: 'Space Grotesk', sans-serif;
-  transition: 0.2s;
-}
-
-#starti:hover {
-  transform: scale(1.03);
-}
-
-#starti.hidden {
-  display: none !important;
-}
-
 #history {
-  display: none; 
+  display: none;
 }
+
 #history .card {
   margin-bottom: 16px;
 }
