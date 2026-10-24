@@ -12,4 +12,20 @@ Study Lock lets you save multiple exams,build a realistic study schedule,track t
 2.Focus sessions
 .time lock mode:30min,60min,open session
 .optional music(Spotify/youtube link,saved+can change the account at any time)
-timer stars only when you press "START NOW"(so no time lost while 
+.timer stars only when you press "START NOW"(so no time lost while setting up music)
+.fullscreen lock with a random motivation quote
+.an easy math challenge whenever you want to stop the session early
+.sound +a notification when a timed session ends
+3.Progress
+.streak counter 
+.milestôe messages at 3.u.14 and 330days
+.daily goal bar(you can set you target hours and minutes)
+.history page:.total time per exam
+              .each session with exam name.date .time and duration
+## tech 
+HTML
+javascript
+css
+# how to run locally
+copy the repo or download the files
+open the folder in your code editer
