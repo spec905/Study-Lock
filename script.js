@@ -870,3 +870,9 @@ else {
 }
 renderHistory();
 updateStreakDisplay();
+//welcome
+const openbtn=document.getElementById('start-btn');
+const welcome=document.getElementById('welcome');
+openbtn.addEventListener('click',()=>{
+  welcome.style.display = 'none';
+});
