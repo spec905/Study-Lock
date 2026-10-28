@@ -1,6 +1,5 @@
 # Study-Lock
 A web app that helps students plan revison and stay focused
-
 Study Lock lets you save multiple exams,build a realistic study schedule,track topics and run timed focus sessions.Everything is saved in the browser,so your plans and history stay even after you close the page
 # Features
 1.Exam planning
