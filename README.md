@@ -17,12 +17,12 @@ with study-lock you can save exams as much as you want with thr name,date and to
 you can track your progress daily with the daily goal bar
 .view your study history like total study time for each exam 
 # how to try it
-you can try it just by using this demo https://spec905.github.io/Study-Lock/
+you can try it just by using this demo [https://spec905.github.io/Study-Lock/](https://spec905.github.io/Study-Lock/)
 (check how it works for more Informations)
 # how it works
 click "get started"to open the main page
 add your exam name ,date and how many days per week (you can add a as much as topic if you want)
-.click save exams,the app will generate a plan from today until the exam day based on your days per week,leaving the last 2 days for review and ppractice test.if you want to check your progress by grades,it calculates the differnce as a percentage of the mawimum grade , not just points (differnce=goal grade-actual grade. difference percent=(difference/max grade)*100.after comparing ,the app gives you a feedback
+.click save exams,the app will generate a plan from today until the exam day based on your days per week,leaving the last 2 days for review and practice test.if you want to check your progress by grades,it calculates the differnce as a percentage of the maximum grade , not just points (differnce=goal grade - actual grade. difference percent=(difference/max grade)*100.after comparing ,the app gives you a feedback
 
 # tech
 HTML for the structure 
