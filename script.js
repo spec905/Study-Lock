@@ -297,7 +297,6 @@ function saveCurrentExam() {
     alert('Set the exam date first');
     return;
   }
-
   generateSchedule();
 
   const data = {
@@ -312,7 +311,9 @@ function saveCurrentExam() {
     })),
     goalGrade: goalgradeinput ? Number(goalgradeinput.value) || 0 : 0,
     maxGrade: maxGradeInput ? Number(maxGradeInput.value) || 100 : 100,
-    resultGrade: null,
+    resultGrade:(currentExamId && exams.find(e => e.id ===currentExamId))
+    ? exams.find(e =>e.id === currentExamId).resultGrade
+    : null,
   };
 
   const idx = exams.findIndex(e => e.id === data.id);
@@ -326,6 +327,7 @@ function saveCurrentExam() {
   renderFocusExamSelect();
   renderSchedule();
   renderToday();
+  renderResults();
   currentExamId = null;
   localStorage.removeItem('currentExamId');
   if (examNameInput) examNameInput.value = '';
@@ -386,6 +388,7 @@ function deleteExam(id) {
   saveExams();
   renderExamsList();
   renderFocusExamSelect();
+  renderResults();
 }
 
 function renderExamsList() {
@@ -746,6 +749,7 @@ function saveSession(sec) {
   localStorage.setItem('studyHistory', JSON.stringify(studyHistory));
   updateStreakDisplay();
   renderHistory();
+  renderResults();
 }
 
 function renderHistory() {
@@ -899,16 +903,54 @@ openbtn.addEventListener('click',()=>{
   welcome.style.display = 'none';
 });
 }
-//gardes
-
+//grades
+const resultsList=document.getElementById('results-list');
 const actualScoreInput=document.getElementById("actual-score");
 const checkResultBtn=document.getElementById("check-result-btn");
 const resultMessage=document.getElementById("result-message");
+let selectResultExamId = null;
+function renderResults(){
+  if(!resultsList) return;
+  if(exams.length===0){
+    resultsList.innerHTML='<p>No exams yet</p>';return;
+  }
+  resultsList.innerHTML=exams.map(ex=> {
+    const goal=Number(ex.goalGrade) || 0;
+    const max=Number(ex.maxGrade) || 100;
+    const hasResult=ex.resultGrade !=null && ex.resultGrade !=='';
+    const selected= ex.id ===selectResultExamId ? 'active-exam':'';
+    return `
+    
+    <div class="exam-row${selected}" data-pick-result="${ex.id}" style="cursor:pointer">
+    <div>
+    <strong>${ex.name}</strong>
+    <div class="exam-meta">${ex.date}</div>
+    <div class="exam-meta">Goal: ${goal} /${max}${hasResult?'.Score:' +ex.resultGrade:''}</div>
+    </div>
+    </div>`;
+  }).join('');
+} renderResults();
+if(resultsList){
+  resultsList.addEventListener('click',(e) =>{
+    const row=e.target.closest('[data-pick-result]');
+    if(!row) return;
+    selectResultExamId=row.getAttribute('data-pick-result');
+    if(resultMessage) resultMessage.textContent='';
+    if(actualScoreInput) actualScoreInput.value='' ;renderResults();
+  });
+}
 if(checkResultBtn){
 checkResultBtn.addEventListener("click" ,function(){
-  const goalGrade=goalgradeinput.valueAsNumber;
-  const actualScore=actualScoreInput.valueAsNumber;
-  const maxGrade=Number(maxGradeInput.value);
+  if(!selectResultExamId){
+    if(resultMessage) resultMessage.textContent='Please choose an exam first'
+    return;
+  }
+  const ex=exams.find(e=> e.id ===selectResultExamId);
+  if(!ex) return;
+  const goalGrade = Number(ex.goalGrade) || 0;
+const maxGrade = Number(ex.maxGrade) || 100;
+const actualScore = actualScoreInput ? Number(actualScoreInput.value) : NaN;
+  
   if (isNaN(goalGrade) || goalGrade <= 0) {
     resultMessage.textContent = "Please enter your goal grade first.";
     return;
@@ -932,4 +974,11 @@ checkResultBtn.addEventListener("click" ,function(){
   }else{
     resultMessage.textContent="There is a big difference.Please work harder next time or revise your studying method";
   }
-})}
+  const idx=exams.findIndex(e=>e.id ===selectResultExamId);
+  if(idx >=0){
+    exams[idx].resultGrade=actualScore;
+    saveExams();
+    renderResults();
+  }
+});
+}
