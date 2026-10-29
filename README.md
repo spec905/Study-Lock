@@ -16,7 +16,7 @@ with study-lock you can save exams as much as you want with thr name,date and to
 you can track your progress daily with the daily goal bar
 .view your study history like total study time for each exam 
 # how to try it
-you can try it just by using this demo
+you can try it just by using this demo https://spec905.github.io/Study-Lock/
 (check how it works for more Informations)
 # how it works
 click "get started"to open the main page
@@ -28,6 +28,6 @@ CSS for the styling
 JavaScript for the logic
 localstorage for the local data saving
 # how to run it locally 
-Download this repository :
+Download this repository : https://github.com/spec905/Study-Lock
 open the folder in your code editor
 and finaly open index.html in your Browser 
