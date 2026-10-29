@@ -310,7 +310,7 @@ function saveCurrentExam() {
       date: dateKey(d.date),
       tasks: d.tasks
     })),
-    goalGrade:goalgradeInput ?Number(goalgradeinput.value)|| 0 : 0 ,
+    goalGrade: goalgradeinput ? Number(goalgradeinput.value) || 0 : 0,
     maxGrade: maxGradeInput ? Number(maxGradeInput.value) || 100 : 100,
     resultGrade: null,
   };
@@ -326,6 +326,14 @@ function saveCurrentExam() {
   renderFocusExamSelect();
   renderSchedule();
   renderToday();
+  currentExamId = null;
+  localStorage.removeItem('currentExamId');
+  if (examNameInput) examNameInput.value = '';
+  if (examDateInput) examDateInput.value = '';
+  if (goalgradeinput) goalgradeinput.value = '';
+  topics = [];
+  schedule = [];
+  renderTopics();
   
 }
 
@@ -370,6 +378,7 @@ function deleteExam(id) {
     schedule = [];
     if (examNameInput) examNameInput.value = '';
     if (examDateInput) examDateInput.value = '';
+    
     renderTopics();
     renderSchedule();
     renderToday();
@@ -430,6 +439,8 @@ if (resetbtn) {
     schedule = [];
     if (examNameInput) examNameInput.value = '';
     if (examDateInput) examDateInput.value = '';
+    if (goalgradeinput) goalgradeinput.value = '';
+    if (daysPerWeekSelect) daysPerWeekSelect.value = '5';
     renderTopics();
     renderSchedule();
     renderToday();
