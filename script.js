@@ -4,6 +4,8 @@ const homeView = document.getElementById('home');
 const scheduleView = document.getElementById('schedule');
 const focusView = document.getElementById('focus');
 const historyView = document.getElementById('history');
+const resultsView = document.getElementById('results');
+
 
 [scheduleView, focusView, historyView].forEach(v => {
   if (v) v.style.display = 'none';
@@ -19,6 +21,7 @@ navBtns.forEach(button => {
     else if (page === 'schedule' && scheduleView) scheduleView.style.display = 'block';
     else if (page === 'focus' && focusView) focusView.style.display = 'block';
     else if (page === 'history' && historyView) historyView.style.display = 'block';
+    else if (page === 'results' && resultsView) resultsView.style.display = 'block';
     navBtns.forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
   });
@@ -109,6 +112,8 @@ if (topicsList) {
 
 //exams / schedule 
 const examNameInput = document.getElementById('exam-name');
+const maxGradeInput=document.getElementById("max-grade");
+const goalgradeinput=document.getElementById("goal-grade")
 const examDateInput = document.getElementById('exam-date');
 const nextBody = document.getElementById('nextBody');
 const generatebtn = document.getElementById('generate-btn');
@@ -304,7 +309,10 @@ function saveCurrentExam() {
     schedule: schedule.map(d => ({
       date: dateKey(d.date),
       tasks: d.tasks
-    }))
+    })),
+    goalGrade:goalgradeInput ?Number(goalgradeinput.value)|| 0 : 0 ,
+    maxGrade: maxGradeInput ? Number(maxGradeInput.value) || 100 : 100,
+    resultGrade: null,
   };
 
   const idx = exams.findIndex(e => e.id === data.id);
@@ -324,6 +332,8 @@ function saveCurrentExam() {
 function loadExam(id) {
   const ex = exams.find(e => e.id === id);
   if (!ex) return;
+  if(goalgradeinput) goalgradeinput.value=ex.goalGrade||'';
+  if(maxGradeInput && ex.maxGrade) maxGradeInput.value = String(ex.maxGrade);
 
   currentExamId = ex.id;
   examName = ex.name || '';
@@ -873,6 +883,42 @@ updateStreakDisplay();
 //welcome
 const openbtn=document.getElementById('start-btn');
 const welcome=document.getElementById('welcome');
+if(openbtn && welcome){
 openbtn.addEventListener('click',()=>{
   welcome.style.display = 'none';
 });
+}
+//gardes
+
+const actualScoreInput=document.getElementById("actual-score");
+const checkResultBtn=document.getElementById("check-result-btn");
+const resultMessage=document.getElementById("result-message");
+if(checkResultBtn){
+checkResultBtn.addEventListener("click" ,function(){
+  const goalGrade=goalgradeinput.valueAsNumber;
+  const actualScore=actualScoreInput.valueAsNumber;
+  const maxGrade=Number(maxGradeInput.value);
+  if (isNaN(goalGrade) || goalGrade <= 0) {
+    resultMessage.textContent = "Please enter your goal grade first.";
+    return;
+  }
+    if (actualScoreInput.value === "" || isNaN(actualScore)) {
+    resultMessage.textContent = "Please enter your actual score.";
+    return;
+  }
+  if (actualScore > maxGrade) {
+    resultMessage.textContent = `Please enter a score between 0 and ${maxGrade}.`;
+    return;
+  }
+  const difference=goalGrade-actualScore;
+  const diffPer=(difference/maxGrade)*100;
+  if(actualScore>=goalGrade){
+    resultMessage.textContent="Amazing! You reached your goal! 🏅";
+  } else if(diffPer<=5){
+    resultMessage.textContent="So close! Maybe a little more concentration next time.";
+  }else if(diffPer<=25){
+    resultMessage.textContent="You did not reach your goal yet.Keep practicing!";
+  }else{
+    resultMessage.textContent="There is a big difference.Please work harder next time or revise your studying method";
+  }
+})}

@@ -11,7 +11,7 @@
     <div id="welcome" class="welcome">
         <div class="moon"></div>
         <h1>Welcome to Study Lock</h1>
-        <button Id="start-btn" class="btn">Get started</button>
+        <button id="start-btn" class="btn">Get started</button>
     </div>
     <div class="wrap">
         <div class="name"><h1>Study Lock</h1><span class="sous-titre">for exam season</span></div>
@@ -22,6 +22,7 @@
             <button data-view="schedule">Schedule</button>
             <button data-view="focus">Lock in session</button>
             <button data-view="history">history</button>
+            <button data-view="results">results</button>
         </nav>
 
         <div id="home">
@@ -35,6 +36,21 @@
                     <div>
                         <label for="exam-date">exam date</label>
                         <input type="date" id="exam-date">
+                    </div>
+                    <div>
+                        <label for="goal-grade">Goal grade</label>
+                        <input type="number" id="goal-grade"  placeholder="enter your goal grade for this exam">
+                    </div>
+                    <div>
+                        <label for="max-grade">Grading system</label>
+                        <select id="max-grade">
+                            <option value="100">Out of 100</option>
+                            <option value="20">Out of 20</option>
+                            <option value="10">Out of 10</option>
+                            <option value="7">Out of 7</option>
+                            <option value="6">Out of 6</option>
+                            <option value="5">Out of 5</option>
+                        </select>
                     </div>
                     <div>
                     <label for="days-per-week">study days / week</label>
@@ -71,6 +87,7 @@
                 <h3 id="schedule-title">full schedule</h3>
                 <div id="plan"></div>
             </div>
+            
         </div>
 
         <!--foccus-->
@@ -110,6 +127,15 @@
                 <h3>Study sessions</h3>
                 <div id="history-list"></div>
             </div>
+        </div>
+        <div id="results" class="results">
+        <div class="card">
+                <h3>Results</h3>
+                <label for="actual-score">type your results here</label>
+                <input type="number" id="actual-score"  placeholder="your score">
+                <button class="btn" id="check-result-btn" type="button">Check results</button>
+                <p id="result-message"></p>
+        </div>
         </div>
 
         <!--want to stop in the middle solve this first-->
