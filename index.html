@@ -81,6 +81,7 @@
         <div id="schedule" class="schedule">
             <div class="card">
                 <h3>My exams</h3>
+                <div id="exam-countdown" class="set"></div>
                 <div id="exams-list"></div>
             </div>
             <div class="card">
@@ -103,6 +104,9 @@
                     <button data-mins="60">60 min</button>
                     <button data-mins="0">Open-session</button>
                 </div>
+                <label class="break">
+                    <input type="checkbox" id="break"> 5 min break every 30min
+                </label>
                 <label for="focus-exam">what are you studying for?</label>
                 <select id="focus-exam"></select>
                 <button class="btn" id="start-study-btn" >Ready to start</button>
@@ -110,12 +114,32 @@
         </div>
         <!--hide lock in mode by defau-->
         <div id="locked-overlay" class="locked-overlay hidden">
+            <div id="break-overlay" class="break-overlay hidden">
+                <div class="break-box"><h3>Break time</h3>
+                <div id="break-timer">05:00</div>
+                <button type="button" id="skip-break-btn" class="btn">Skip the break</button>
+            </div>
+            <div id="break-question"class="break-overlay hidden">
+                <h3>It is time for a break</h3>
+                <p>Do you want to take a 5 min break now?</p>
+                <button type="button" id="yesbreak" class="btn">Yes,take a break</button>
+                <button type="button" id="nobreak" class="btn">No,keep studying</button>
+            </div>
+            </div>
             <div class="content">
                 <h2 id="lock-examName">Focus mode</h2>
                 <div id="timer">00:00:00</div>
                 <p id="quote"></p>
                 <button id="starti" class="hidden">Start now</button>
                 <button id="stop-btn">Stop the session?</button>
+            </div>
+            <button type="button" id="notesbtn">Notes</button>
+            <div id="focus-notes" class="focus-notes hidden">
+                <div class="focus-notes-header" id="notes-drag">
+                    <span>Notes</span>
+                    <button type="button" id="closenotes"></button>
+                </div>
+                <textarea id="notes-body" placeholder="write your notes here"></textarea>
             </div>
         </div>
         <div id="history" class="history">
@@ -151,6 +175,8 @@
         <button id="cha-cancel">Cancel</button>
     </div>
 </div>
+</div>
+
     </div>
     <div class="streak">
         streak:<strong id="streak-count">0</strong>day<span id="streak">s</span>

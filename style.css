@@ -637,6 +637,7 @@ select option {
   color: #94a3b8;
   margin-top: 3px;
   font-family: 'JetBrains Mono', monospace;
+  
 }
 
 .exam-actions {
@@ -804,4 +805,95 @@ select option {
 body.show-welcome .wrap,
 body.show-welcome .streak {
   display: none ;
+}
+#exam-countdown{
+  color: #0a885e;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+}
+#notesbtn{
+  background: #baf0de;
+  margin-top: 18px;
+  padding:8px 14px;
+  border: 2px solid seagreen;
+  color: #12152b;
+  border-radius: 8px;
+  cursor: pointer;
+
+}
+#notesbtn:hover{
+  background: rgba(126, 190, 182, 0.986);
+}
+#focus-notes{
+  position: fixed;
+  top: 20px;left:50%;
+  transform:translateX(-50%);
+  width:min(320px, 90vw);
+  border: 2px solid rgb(5, 64, 68);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(40, 102, 138, 0.815);
+  overflow: hidden;
+  z-index: 10000;
+}
+#focus-notes.hidden{
+  display:none;
+}
+#notes-drag{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: #2d0136;
+  color: #e2e8f0;
+}
+#notes-body{
+  display: block;
+  width: 100%;
+  min-height: 180px;
+  border: none;
+  resize: vertical;
+  padding: 12px;
+  background: #bea8f0;
+  font-size: 14px;
+  font-family: 'Space Grotesk' , sans-serif;
+  line-height: 1.5;
+}
+
+.break-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(34, 41, 80, 0.92);
+  display: flex;
+  justify-content: center;
+
+}
+.break-overlay.hidden{
+  display: none;
+}
+.break-box{
+  text-align: center;
+  columns: #7192bd;
+}
+#break-timer{
+  font-family: 'JetBrains Mono' , monospace;
+  font-size: 40px;
+  color: #a5b4fc;
+  margin: 12px 0;
+}
+label.break{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+#break-question{
+z-index: 20;
+  background: #addacb;
+  align-items: center;
+  justify-content: center;
+}
+#break-question button{
+  margin: 6px;
 }

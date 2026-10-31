@@ -7,7 +7,7 @@ const historyView = document.getElementById('history');
 const resultsView = document.getElementById('results');
 
 
-[scheduleView, focusView, historyView].forEach(v => {
+[scheduleView, focusView, historyView,resultsView].forEach(v => {
   if (v) v.style.display = 'none';
 });
 
@@ -116,6 +116,7 @@ const maxGradeInput=document.getElementById("max-grade");
 const goalgradeinput=document.getElementById("goal-grade")
 const examDateInput = document.getElementById('exam-date');
 const nextBody = document.getElementById('nextBody');
+const examCountdown=document.getElementById('exam-countdown');
 const generatebtn = document.getElementById('generate-btn');
 const resetbtn = document.getElementById('reset-btn');
 const daysPerWeekSelect = document.getElementById('days-per-week');
@@ -198,6 +199,7 @@ function generateSchedule() {
   } else {
     topics.forEach((topic, i) => {
       const idx = i % schedule.length;
+      if(schedule.length ===0) return;
       schedule[idx].tasks.push({ label: topic, done: false });
     });
   }
@@ -240,17 +242,37 @@ function renderSchedule() {
     </div>
   `).join('');
 }
-
+function renderCountdown(){
+  if(!examCountdown) return;
+  if(!examDate){
+    examCountdown.textContent='';
+    return;
+  }
+  const today=new Date();today.setHours(0,0,0,0);
+  const exam =new Date(examDate + 'T00:00:00'); const days= Math.round((exam - today)/86400000);
+  const name= examName || 'your exam' ;
+  if(days>1){
+    examCountdown.textContent=days +' days until ' + name;
+  } else if(days ==1){
+    examCountdown.textContent=' 1 day until ' + name;
+  }else if(days ==0){
+    examCountdown.textContent= name + ' is today, Good luck! ';
+}else {
+    examCountdown.textContent= name + ' has passed ';
+}
+}
 function renderToday() {
   if (!nextBody) return;
   if (!examDate) {
     nextBody.textContent = 'Add an exam to get a plan';
+      renderCountdown();
     return;
   }
   const today = new Date();
   const dayIndex = schedule.findIndex(d => d.date.toDateString() === today.toDateString());
   if (dayIndex === -1 || schedule[dayIndex].tasks.length === 0) {
-    nextBody.textContent = 'Nothing scheduled today.';
+    nextBody.textContent='No tasks for today.';
+    renderCountdown();
     return;
   }
   const tasks = schedule[dayIndex].tasks;
@@ -258,8 +280,7 @@ function renderToday() {
   nextBody.innerHTML =
     `<div class="progress-today">${doneCount}/${tasks.length} done today</div>` +
     tasks.map((task, j) => taskHtml(task, dayIndex, j)).join('');
-}
-
+    renderCountdown();}
 
 function persistCurrentExam() {
   if (!currentExamId || !examDate) return;
@@ -328,8 +349,6 @@ function saveCurrentExam() {
   renderSchedule();
   renderToday();
   renderResults();
-  currentExamId = null;
-  localStorage.removeItem('currentExamId');
   if (examNameInput) examNameInput.value = '';
   if (examDateInput) examDateInput.value = '';
   if (goalgradeinput) goalgradeinput.value = '';
@@ -472,7 +491,22 @@ const musicLinkr = document.getElementById('music-linkr');
 const musicLinkInput = document.getElementById('music-link-input');
 const changeMusic = document.getElementById('change-music');
 const starti = document.getElementById('starti');
-
+const openNotes=document.getElementById('notesbtn');
+const closeNotes=document.getElementById('closenotes');
+const focusNotes=document.getElementById('focus-notes');
+const notesDrag=document.getElementById('notes-drag');
+const notesBody =document.getElementById('notes-body');
+const breakT=document.getElementById('break');
+const breakOverlay= document.getElementById('break-overlay');
+const breakTimer =document.getElementById('break-timer');
+const skipBreakBtn =document.getElementById('skip-break-btn');
+let breaksEnabled= false;
+let focusSinceBreak =0;
+let breakRemaining=0;
+let onbreak=false;
+const breakQuestion=document.getElementById('break-question');
+const yesBreak=document.getElementById('yesbreak');
+const noBreak=document.getElementById('nobreak');
 let selectedDuration = 30 * 60;
 let elapsed = 0;
 let countdownRemaining = 0;
@@ -519,6 +553,13 @@ function prepareLockScreen() {
 }
 
 function reallyStartTimer() {
+  //break{
+  breaksEnabled =breakT ? breakT.checked:false;
+  focusSinceBreak=0
+  onbreak=false;
+  if(breakOverlay) breakOverlay.classList.add('hidden');
+
+  
   waitingForStart = false;
   if (starti) starti.classList.add('hidden');
   try {
@@ -615,12 +656,94 @@ if (noMusic) {
 if (starti) {
   starti.addEventListener('click', reallyStartTimer);
 }
+function startBreak(){
+  onbreak=true;
+  clearInterval(timerInterval);
+  focusSinceBreak=0;
+  breakRemaining= 5 * 60;
+  if(breakTimer){
+    breakTimer.textContent='05:00';
+  }
+  if(breakOverlay) breakOverlay.classList.remove('hidden');
+  beginBreakTicking();
+}
+function askForBreak() {
+  clearInterval(timerInterval);
+  playBreakSound();
+  if (breakQuestion) {
+    breakQuestion.classList.remove('hidden');
+  }
+}
+if (yesBreak) {
+  yesBreak.addEventListener('click', () => {
+    if (breakQuestion) breakQuestion.classList.add('hidden');
+    startBreak();
+  });
+}
+if (noBreak) {
+  noBreak.addEventListener('click', () => {
+    if (breakQuestion) breakQuestion.classList.add('hidden');
 
+    focusSinceBreak = 0; 
+    beginTicking();
+  });
+}
+function playBreakSound() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 660; 
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  } catch (e) {}
+}
+function beginBreakTicking(){
+  clearInterval(timerInterval);
+  lastTick= Date.now();
+  timerInterval = setInterval(function(){
+    const delta=Math.floor((Date.now() - lastTick) / 1000);
+    if(delta <1) return;
+    lastTick += delta*1000 ;
+    breakRemaining -= delta;
+    if(breakRemaining <= 0){
+      endBreak();return;
+    }
+    const mb =Math.floor(breakRemaining /60);
+    const b =breakRemaining % 60;
+    if(breakTimer){
+      breakTimer.textContent= String(mb).padStart(2, '0') +':' + String(b).padStart(2, '0')
+    }
+  },500);
+}
+function endBreak(){
+  onbreak=false;
+  clearInterval(timerInterval);
+  if(breakOverlay) breakOverlay.classList.add('hidden');
+  beginTicking();
+}
+if (skipBreakBtn){
+  skipBreakBtn.addEventListener('click' , endBreak);
+}
 function tick() {
   const delta = Math.floor((Date.now() - lastTick) / 1000);
   if (delta < 1) return;
   lastTick += delta * 1000;
   elapsed += delta;
+  if (breaksEnabled && !onbreak){
+    focusSinceBreak += delta;
+    if(focusSinceBreak >= 30*60){
+      askForBreak();
+      return;
+    }
+  }
   if (selectedDuration > 0) {
     countdownRemaining -= delta;
     if (countdownRemaining <= 0) {
@@ -667,6 +790,54 @@ function notifyDone() {
     }
   } catch (e) {}
 }
+if(notesBody){
+  notesBody.value=localStorage.getItem('focusNotes') || '';
+}
+if(openNotes && focusNotes){
+  openNotes.addEventListener('click' ,() =>{
+    focusNotes.classList.remove('hidden');
+  });
+}
+if(closeNotes && focusNotes){
+  closeNotes.addEventListener('click' ,() =>{
+    focusNotes.classList.add('hidden');
+  });
+}
+if(notesBody){
+  notesBody.addEventListener('input',() =>{
+    localStorage.setItem('focusNotes' , notesBody.value)
+  });
+}
+  //draging
+  if( notesDrag && focusNotes){
+    let dragging =false;
+    let startX = 0;
+    let startY = 0;
+    let originLeft =0;
+    let originTop =0;
+    notesDrag.addEventListener('mousedown', (e) => {
+      dragging=true;
+      startX= e.clientX;
+      startY= e.clientY;
+      const rect=focusNotes.getBoundingClientRect();
+      originLeft=rect.left;
+      originTop=rect.top;
+      focusNotes.style.transform='none';
+      focusNotes.style.left=originLeft + 'px';
+      focusNotes.style.top=originTop + 'px';
+    });
+    document.addEventListener('mousemove', (e) =>{
+      if(!dragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    focusNotes.style.left = originLeft + dx + 'px';
+    focusNotes.style.top = originTop + dy + 'px';
+    });
+    document.addEventListener('mouseup',()=>{
+      dragging = false;
+    });
+
+  }
 
 function finishLock(natural) {
   clearInterval(timerInterval);
@@ -677,13 +848,17 @@ function finishLock(natural) {
     }
   } catch (e) {}
   if (lockedoverlay) lockedoverlay.classList.add('hidden');
+  if (focusNotes) focusNotes.classList.add('hidden');
   if (challengeModal) challengeModal.classList.add('hidden');
   if (natural) notifyDone();
   if (elapsed >= 60) saveSession(elapsed);
+  if(breakOverlay) breakOverlay.classList.add('hidden');
+  onbreak=false;
   const mins = Math.max(1, Math.round(elapsed / 60));
   alert(natural
     ? `Congratulations! You completed ${mins} minutes of focused study.`
     : `You stopped the session after ${mins} minutes.`);
+  
 }
 
 if (stopbtn) {
@@ -735,23 +910,22 @@ if (challengInput) {
     }
   });
 }
-
 // history / streak / goal 
 let studyHistory = JSON.parse(localStorage.getItem('studyHistory') || '[]');
-
 function saveSession(sec) {
+  const noteText=notesBody ? notesBody.value.trim() :'';
   studyHistory.push({
     date: new Date().toISOString(),
     duration: sec,
     examId: activeSessionExamId,
-    examName: activeSessionExamName || examName || 'Focus session'
+    examName: activeSessionExamName || examName || 'Focus session',
+    note:noteText
   });
   localStorage.setItem('studyHistory', JSON.stringify(studyHistory));
   updateStreakDisplay();
   renderHistory();
   renderResults();
 }
-
 function renderHistory() {
   if (historyListEl) {
     if (studyHistory.length === 0) {
@@ -763,6 +937,7 @@ function renderHistory() {
           <div>
             <strong>${h.examName || 'Session'}</strong>
             <div class="exam-meta">${formatDateTime(h.date)}</div>
+            ${h.note ? `<div class="exam-meta session-note">${h.note}</div>` : ''}
           </div>
           <div class="history-dur">${mins} min</div>
         </div>`;
