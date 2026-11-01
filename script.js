@@ -14,7 +14,7 @@ const resultsView = document.getElementById('results');
 navBtns.forEach(button => {
   button.addEventListener('click', () => {
     const page = button.getAttribute('data-view');
-    [homeView, scheduleView, focusView, historyView].forEach(v => {
+    [homeView, scheduleView, focusView, historyView,resultsView].forEach(v => {
       if (v) v.style.display = 'none';
     });
     if (page === 'home' && homeView) homeView.style.display = 'block';
@@ -924,6 +924,7 @@ function saveSession(sec) {
   localStorage.setItem('studyHistory', JSON.stringify(studyHistory));
   updateStreakDisplay();
   renderHistory();
+  renderNotesHistory();
   renderResults();
 }
 function renderHistory() {
@@ -937,14 +938,12 @@ function renderHistory() {
           <div>
             <strong>${h.examName || 'Session'}</strong>
             <div class="exam-meta">${formatDateTime(h.date)}</div>
-            ${h.note ? `<div class="exam-meta session-note">${h.note}</div>` : ''}
           </div>
           <div class="history-dur">${mins} min</div>
         </div>`;
       }).join('');
     }
   }
-
   if (historyTotalsEl) {
     const totals = {};
     studyHistory.forEach(h => {
@@ -962,6 +961,47 @@ function renderHistory() {
           </div>`;
         }).join('');
   }
+}
+//notes in history
+const historyNotes=document.getElementById('history-notes');
+const noteView=document.getElementById('note-view');
+const notesTitle=document.getElementById('notes-T');
+const notesBodyView=document.getElementById('notes-body-view');
+const closeNotesView=document.getElementById('close-notes-view');
+function renderNotesHistory(){
+  if(!historyNotes) return;
+  const notesWithContent=studyHistory.map((h,index) => ({h,index})).filter(item => item.h.note && item.h.note.trim() );
+  if(notesWithContent.length ===0){
+    historyNotes.innerHTML='<p>No notes here </p>'; return;
+  }
+  historyNotes.innerHTML=notesWithContent.slice().reverse().map(item => { 
+    const h= item.h;
+    const preview=h.note.length > 30 ? h.note.slice(0,30) + '...' : h.note;
+    return `<div class="history-item">
+    <div>
+    <strong>${h.examName || 'Session'}</strong>
+    <div class="exam-meta">${formatDateTime(h.date)}</div>
+    <div class="exam-meta">${preview}</div>
+    </div>
+    <button type="button" class="btn" data-open-note="${item.index}">Open</button>
+    </div>`;
+  }).join('');
+}
+if(historyNotes)
+  historyNotes.addEventListener('click', (e) => {
+    const btn =e.target.closest('[data-open-note]');
+    if(!btn) return;
+    const index = Number(btn.getAttribute('data-open-note'));
+    const h = studyHistory[index];
+    if(!h) return;
+    if(notesTitle) notesTitle.textContent= h.examName || 'Session';
+    if(notesBodyView) notesBodyView.textContent= h.note || '';
+    if(noteView) noteView.classList.remove('hidden');
+  });
+if(closeNotesView && noteView){
+  closeNotesView.addEventListener('click' ,()=>{
+    noteView.classList.add('hidden');
+  });
 }
 
 function streakcount() {
@@ -1069,6 +1109,7 @@ else {
   renderToday();
 }
 renderHistory();
+renderNotesHistory();
 updateStreakDisplay();
 //welcome
 const openbtn=document.getElementById('start-btn');
